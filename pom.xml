@@ -20,7 +20,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>ro.alex.Main</mainClass>
+							<mainClass>ro.alex.ServerController</mainClass>
 						</manifest>
 					</archive>
 					<finalName>ChatServer</finalName> 

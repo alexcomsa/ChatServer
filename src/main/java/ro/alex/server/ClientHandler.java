@@ -8,10 +8,12 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.logging.Logger;
 
-public class ChatServer implements Runnable, Server{
+import ro.alex.message.ChatMessage;
+
+public class ClientHandler implements Runnable{
 
 	
-	public ChatServer(Socket clientConnection){
+	public ClientHandler(Socket clientConnection){
 		this.clinetConnection = clientConnection;
 		clientIp = clinetConnection.getLocalAddress();
 	}
@@ -20,13 +22,23 @@ public class ChatServer implements Runnable, Server{
 	private Logger LOGGER = Logger.getLogger(this.getClass().getName());
 	private InetAddress clientIp;
 	
+	
+	
 	@Override
 	public void run() {
 		LOGGER.info("A connection has been opend from: "+clientIp.toString());
 		try {
 			Writer out = new OutputStreamWriter(clinetConnection.getOutputStream());
 			Date now = new Date();
-			out.write(now.toString()+"\n");
+			
+			ChatMessage message =  new ChatMessage();
+			
+			message.setFrom("SERVER");
+			message.setContent(now.toString());
+			message.setTo("All");
+			
+			
+			out.write(message.toString()+"\n");
 			out.flush();
 		} catch (IOException e) {
 			LOGGER.severe(e.getMessage());
@@ -43,10 +55,6 @@ public class ChatServer implements Runnable, Server{
 		
 	}
 
-	@Override
-	public void start() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }
